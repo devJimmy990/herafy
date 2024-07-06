@@ -39,7 +39,7 @@ class ExternalSignOptions extends StatelessWidget {
             }
           },
         ),
-        const Text("data")
+        // const Text("data")
         // buildOptionButton(
         //   src: 'apple',
         //   onTap: () => dialog(msg: "Apple ID"),

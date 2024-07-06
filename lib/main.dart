@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      locale: const Locale("ar-EG"),
+      locale: const Locale("ar"),
       routes: {
         Routes.login: (context) => const LoginPage(),
         Routes.register: (context) => const RegisterationPage(),

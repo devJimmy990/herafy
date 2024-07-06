@@ -18,7 +18,7 @@ Widget signInOptions() {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: Text(
-                "Or sign in with",
+                "او التسجيل بواسطة",
                 style: TextStyle(
                   color: Colors.black54,
                 ),

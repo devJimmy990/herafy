@@ -44,14 +44,17 @@ class _RegisterationPageState extends State<RegisterationPage> {
             child: Form(
               key: _formKey,
               child: Column(
+                textDirection: TextDirection.rtl,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   buildEmailField(
+                    isArabic: true,
                     controller: _emailController,
                     validator: (Validator.emailValidator),
                   ),
                   const SizedBox(height: 16.0),
                   buildPasswordField(
+                    isArabic: true,
                     label: 'كلمة المرور',
                     showPassword: showBoth ? true : showPassword,
                     controller: _passwordController,
@@ -65,6 +68,7 @@ class _RegisterationPageState extends State<RegisterationPage> {
                   ),
                   const SizedBox(height: 16.0),
                   buildPasswordField(
+                    isArabic: true,
                     label: 'تأكيد كلمة المرور',
                     showPassword: showBoth ? true : showRePassword,
                     controller: _rePasswordController,
@@ -103,6 +107,7 @@ class _RegisterationPageState extends State<RegisterationPage> {
                   signInOptions(),
                   Center(child: termsAndConditions()),
                   const SwitchAuthPage(
+                    isArabic: true,
                     link: " تسجيل الدخول",
                     route: Routes.login,
                     label: "هل لديك حساب بالفعل؟",
