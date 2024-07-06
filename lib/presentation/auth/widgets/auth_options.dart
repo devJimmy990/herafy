@@ -33,19 +33,7 @@ class ExternalSignOptions extends StatelessWidget {
                 FailureToast.showToast(
                     msg: auth.currentUser?.uid ?? "Not Found");
               }
-              // return auth.currentUser?.uid;            //   var user = await CustomFirebase().signWithGoogle();
-              //   SharedPreference().setString(key: 'userID', value: user);
-              //   var document =
-              //       await CustomFirebase().getDocumentData(docID: user);
-
-              //   if (document == null) {
-              //     navigate(route: Routes.registerFill);
-              //     return;
-              //   }
-              //   SharedPreference().setString(
-              //       key: 'userType',
-              //       value: document["stress"] != null ? "patient" : "doctor");
-              //   navigate(route: Routes.home);
+             
             } catch (e) {
               FailureToast.showToast(msg: e.toString());
             }

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "214964983163",
+    "project_id": "herafy-ae525",
+    "storage_bucket": "herafy-ae525.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214964983163:android:bd0eb0532ea7f01eb699de",
+        "android_client_info": {
+          "package_name": "com.herafy.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "214964983163-hei7hpamq0nie6d9l17qi8o4bl5vecqj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg1GCy5bLGO05ZM9kN0V2D4gxA_iH70xU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "214964983163-hei7hpamq0nie6d9l17qi8o4bl5vecqj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "214964983163-ct2kgdt47bi3j8j3g94cj8aoqrt2mqko.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.herafy.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

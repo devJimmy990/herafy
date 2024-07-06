@@ -1,4 +1,4 @@
-package com.example.herafy
+package com.herafy.app
 
 import io.flutter.embedding.android.FlutterActivity
 

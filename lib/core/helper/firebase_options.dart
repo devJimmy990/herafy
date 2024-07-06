@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAg1GCy5bLGO05ZM9kN0V2D4gxA_iH70xU',
-    appId: '1:214964983163:android:e8ff9cb6e4754e16b699de',
+    appId: '1:214964983163:android:bd0eb0532ea7f01eb699de',
     messagingSenderId: '214964983163',
     projectId: 'herafy-ae525',
     storageBucket: 'herafy-ae525.appspot.com',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDv8F-QGITR7X1yMH_U80YCkw0Z4dME5iY',
-    appId: '1:214964983163:ios:fcb9ba3044ba5b87b699de',
+    appId: '1:214964983163:ios:f5c6e3288faa25fdb699de',
     messagingSenderId: '214964983163',
     projectId: 'herafy-ae525',
     storageBucket: 'herafy-ae525.appspot.com',
     iosClientId: '214964983163-ct2kgdt47bi3j8j3g94cj8aoqrt2mqko.apps.googleusercontent.com',
-    iosBundleId: 'com.example.herafy',
+    iosBundleId: 'com.herafy.app',
   );
 }
