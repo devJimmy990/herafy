@@ -4,19 +4,19 @@ import 'package:fluttertoast/fluttertoast.dart';
 class GeneralToast {
   static void showToast({
     required String msg,
+    bool isLong = false,
     double fontSize = 16,
     Color? bgColor = Colors.black,
     Color? textColor = Colors.white,
-    Toast? length = Toast.LENGTH_SHORT,
   }) {
     Fluttertoast.showToast(
       msg: msg,
       fontSize: fontSize,
-      toastLength: length,
       textColor: textColor,
       timeInSecForIosWeb: 1,
       backgroundColor: bgColor,
       gravity: ToastGravity.BOTTOM,
+      toastLength: isLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT,
     );
   }
 }
@@ -24,17 +24,18 @@ class GeneralToast {
 class FailureToast {
   static void showToast({
     required String msg,
+    bool isLong = false,
     double fontSize = 16,
     Toast? length = Toast.LENGTH_SHORT,
   }) {
     Fluttertoast.showToast(
       msg: msg,
       fontSize: fontSize,
-      toastLength: length,
       timeInSecForIosWeb: 1,
       textColor: Colors.white,
-      backgroundColor: Colors.red,
       gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      toastLength: isLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT,
     );
   }
 }
@@ -42,17 +43,18 @@ class FailureToast {
 class SuccessToast {
   static void showToast({
     required String msg,
+    bool isLong = false,
     double fontSize = 16,
     Toast? length = Toast.LENGTH_SHORT,
   }) {
     Fluttertoast.showToast(
       msg: msg,
       fontSize: fontSize,
-      toastLength: length,
       timeInSecForIosWeb: 1,
       textColor: Colors.white,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.green,
+      toastLength: isLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT,
     );
   }
 }
