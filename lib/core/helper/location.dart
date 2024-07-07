@@ -26,7 +26,7 @@ class CustomLocation {
   }
 
   Future<void> accessLocation(
-      {required Function(String position) callBack}) async {
+      {required Function(Map<String, dynamic> location) callBack}) async {
     if (!await _isServiceAvailable()) {
       throw Exception("service-not_available");
     }
@@ -49,6 +49,12 @@ class CustomLocation {
     // print("\nAddress: ${res.toString()}");
     // print("End-Trace: ==============================================\n\n ");
     // callBack("${position.latitude},${position.longitude}");
-    callBack("${location.first.street},${location.first.subLocality}");
+    callBack({
+      "latitude": position.latitude,
+      "longitude": position.longitude,
+      "street": location[0].street.toString(),
+      "area": location[0].locality.toString(),
+      "city": location[0].subLocality.toString(),
+    });
   }
 }

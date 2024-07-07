@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:herafy/core/helper/routes.dart';
+import 'package:herafy/core/helper/shared_preferences.dart';
 import 'package:herafy/core/helper/validator.dart';
 import 'package:herafy/core/widgets/buttons.dart';
 import 'package:herafy/core/widgets/inputs.dart';
 import 'package:herafy/core/widgets/toast.dart';
+import 'package:herafy/data/model/client.dart';
 import 'package:herafy/domain/cubit/auth/auth_cubit.dart';
 import 'package:herafy/domain/cubit/auth/auth_state.dart';
 import 'package:herafy/presentation/auth/widgets/auth.switch_page.dart';
@@ -16,17 +18,17 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 45),
+            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 45),
             child: Column(
               textDirection: TextDirection.rtl,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text(
+                Text(
                   "مرحبا بك",
                   textAlign: TextAlign.end,
                   style: TextStyle(
@@ -34,21 +36,13 @@ class LoginPage extends StatelessWidget {
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold),
                 ),
-                const Text(
+                Text(
                   ".نحن متحمسون لعودتك، ولا يمكننا الانتظار لنرى ما الذي قمت به منذ آخر مرة قمت فيها بتسجيل الدخول",
                   textAlign: TextAlign.end,
                   style: TextStyle(
                       fontSize: 16, height: 1.5, color: Colors.black54),
                 ),
-                const LoginInputs(),
-                Center(child: termsAndConditions()),
-                const SwitchAuthPage(
-                  isArabic: true,
-                  link: "إنشاء حساب",
-                  route: Routes.register,
-                  label: "ليس مسجل دخولك؟ ",
-                ),
-                const SizedBox(height: 16.0),
+                LoginInputs(),
               ],
             ),
           ),
@@ -72,6 +66,14 @@ class _LoginInputsState extends State<LoginInputs> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    SuccessToast.showToast(
+        msg:
+            "Shared is: userID: ${SharedPreference().getString(key: "userID")}\n\nuserType: ${SharedPreference().getString(key: "userType")}");
+  }
+
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
@@ -83,7 +85,6 @@ class _LoginInputsState extends State<LoginInputs> {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const SizedBox(height: 16.0),
@@ -111,31 +112,46 @@ class _LoginInputsState extends State<LoginInputs> {
           // ),
           BlocConsumer<AuthCubit, AuthState>(
             builder: (context, state) {
-              return buildSubmitButton(
-                label: "تسجيل الدخول",
-                widthFactor: .5,
-                onPressed: () {
-                  if (_formKey.currentState?.validate() == true &&
-                      state is! AuthLoading) {
-                    try {
-                      if (_emailController.text == "admin@herafy.com" &&
-                          _passwordController.text == "123456") {
-                        navigate(route: Routes.adminHome);
-                      } else {
-                        // await loginUser();
-                        context.read<AuthCubit>().signInWithEmailAndPassword(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            );
-                        // navigate(route: Routes.home);
+              return Column(children: [
+                buildSubmitButton(
+                  label: "تسجيل الدخول",
+                  widthFactor: .5,
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() == true &&
+                        state is! AuthLoading) {
+                      try {
+                        if (_emailController.text == "admin@herafy.com" &&
+                            _passwordController.text == "123456") {
+                          navigate(route: Routes.adminHome);
+                        } else {
+                          // await loginUser();
+                          context.read<AuthCubit>().signInWithEmailAndPassword(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              );
+                          // navigate(route: Routes.home);
+                        }
+                      } catch (e) {
+                        FailureToast.showToast(
+                            msg:
+                                Validator.firebaseLoginValidator(e.toString()));
                       }
-                    } catch (e) {
-                      FailureToast.showToast(
-                          msg: Validator.firebaseLoginValidator(e.toString()));
                     }
-                  }
-                },
-              );
+                  },
+                ),
+                signInOptions(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: buildOptionButton(
+                    src: 'google',
+                    onTap: () async {
+                      if (state is! AuthLoading) {
+                        context.read<AuthCubit>().signInWithGoogle();
+                      }
+                    },
+                  ),
+                ),
+              ]);
             },
             listener: (context, state) {
               if (state is AuthSuccessLogin) {
@@ -146,50 +162,42 @@ class _LoginInputsState extends State<LoginInputs> {
                   (route) => false,
                 );
               } else if (state is AuthSuccessLoginWithProfile) {
-                SuccessToast.showToast(msg: "تم التسجيل بنجاح");
-                navigate(route: Routes.register);
+                // SuccessToast.showToast(
+                //     msg: state.data is Client ? "Client" : "Technician");
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  state.data is Client
+                      ? Routes.clientHome
+                      : Routes.technicianHome,
+                  (route) => false,
+                );
               } else if (state is AuthError) {
                 FailureToast.showToast(
-                    msg: Validator.firebaseRegisterValidator(
+                    msg: Validator.firebaseLoginValidator(
                   state.message,
                 ));
               }
             },
           ),
+          const SizedBox(height: 8.0),
           BlocBuilder<AuthCubit, AuthState>(builder: (context, state) {
             if (state is AuthLoading) {
               return const CircularProgressIndicator();
             }
             return Column(
               children: [
-                signInOptions(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: buildOptionButton(
-                    src: 'google',
-                    onTap: () async {},
-                  ),
-                ),
                 Center(child: termsAndConditions()),
                 const SwitchAuthPage(
                   isArabic: true,
-                  link: " تسجيل الدخول",
-                  route: Routes.login,
-                  label: "هل لديك حساب بالفعل؟",
+                  link: "إنشاء حساب",
+                  route: Routes.register,
+                  label: "ليس لديك حساب؟",
                 ),
                 const SizedBox(height: 16.0),
               ],
             );
           }),
-
-          signInOptions(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: buildOptionButton(
-              src: 'google',
-              onTap: () async {},
-            ),
-          ),
         ],
       ),
     );

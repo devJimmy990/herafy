@@ -77,8 +77,8 @@ class Validator {
   }
 
   static String firebaseLoginValidator(String error) {
-    if (error.contains("invalid-email")) {
-      return 'The email address is not valid.';
+    if (error.contains("invalid-credential")) {
+      return 'No user found with this email or password.';
     } else if (error.contains("user-disabled")) {
       return 'The user account has been disabled.';
     } else if (error.contains("user-not-found")) {

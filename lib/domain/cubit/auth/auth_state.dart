@@ -18,17 +18,23 @@ class AuthSuccessLogin extends AuthState {
   });
 }
 
-class AuthSuccessLoginWithProfile extends AuthSuccessLogin {
+class AuthSuccessLoginWithProfile extends AuthState {
   final dynamic data;
-
+  final String user;
+  final bool status;
   AuthSuccessLoginWithProfile({
     required this.data,
-    required super.user,
-    required super.status,
+    required this.user,
+    required this.status,
   });
 }
 
-class AuthSuccessFillData extends AuthState {}
+class AuthSignOutSuccess extends AuthState {}
+
+class AuthSuccessFillData extends AuthState {
+  final dynamic data;
+  AuthSuccessFillData({required this.data});
+}
 
 class AuthError extends AuthState {
   final String message;

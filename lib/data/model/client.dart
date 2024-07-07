@@ -7,22 +7,24 @@ class Client extends User {
   Client({
     super.id = '',
     super.type = "client",
+    super.status = "active",
     required super.fName,
     required super.lName,
     required super.phone,
-    required super.status,
     required super.gender,
     required super.location,
+    required super.birthDate,
   });
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
-      id: json['id'],
-      type: json['type'],
-      fName: json['fName'],
-      lName: json['lName'],
-      phone: json['phone'],
-      status: json['status'],
-      gender: json['gender'],
+      id: json['id'] ?? 'Not Found',
+      type: json['type'] ?? 'Not Found',
+      fName: json['fName'] ?? 'Not Found',
+      lName: json['lName'] ?? 'Not Found',
+      phone: json['phone'] ?? 'Not Found',
+      status: json['status'] ?? 'Not Found',
+      gender: json['gender'] ?? 'Not Found',
+      birthDate: json['birthDate'] ?? 'Not Found',
       location: Location.fromJson(json['location']),
     );
   }
@@ -37,6 +39,7 @@ class Client extends User {
       'phone': phone,
       'status': status,
       'gender': gender,
+      'birthDate': birthDate,
       'location': location.toJson()
     };
   }

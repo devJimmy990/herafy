@@ -1,5 +1,5 @@
 class Location {
-  late String area, city, country;
+  late String area, city, street;
   late double latitude, longitude;
 
   Location.empty();
@@ -7,17 +7,17 @@ class Location {
   Location(
       {required this.area,
       required this.city,
-      required this.country,
+      required this.street,
       required this.latitude,
       required this.longitude});
 
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
-      area: json['area'],
-      city: json['city'],
-      country: json['country'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
+      area: json['area'] ?? 'Not Found',
+      city: json['city'] ?? 'Not Found',
+      street: json['street'] ?? 'Not Found',
+      latitude: json['latitude'] ?? 'Not Found',
+      longitude: json['longitude'] ?? 'Not Found',
     );
   }
 
@@ -25,7 +25,7 @@ class Location {
     return {
       "area": area,
       "city": city,
-      "country": country,
+      "street": street,
       "latitude": latitude,
       "longitude": longitude,
     };

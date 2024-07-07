@@ -1,3 +1,4 @@
+import 'package:herafy/core/helper/shared_preferences.dart';
 import 'package:herafy/data/model/client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:herafy/data/model/technician.dart';
@@ -32,11 +33,26 @@ class AuthCubit extends Cubit<AuthState> {
       Map<String, dynamic> result =
           await AuthRepository(remoteDataSource: AuthRemoteDataSource())
               .signInWithGoogle();
+
       user = result['user'];
-      emit(AuthSuccessLogin(
-        user: user,
-        status: result['hasProfile'],
-      ));
+
+      if (result['hasProfile']) {
+        saveCurretnUserData(
+          id: result['data'].id,
+          type: result['data'].type,
+        );
+
+        emit(AuthSuccessLoginWithProfile(
+          data: result['data'],
+          user: result['user'],
+          status: result['hasProfile'],
+        ));
+      } else {
+        emit(AuthSuccessLogin(
+          user: user,
+          status: result['hasProfile'],
+        ));
+      }
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
@@ -56,17 +72,22 @@ class AuthCubit extends Cubit<AuthState> {
       );
       user = result['user'];
       if (result['hasProfile']) {
+        saveCurretnUserData(
+          id: result['data'].id,
+          type: result['data'].type,
+        );
+
         emit(AuthSuccessLoginWithProfile(
           data: result['data'],
           user: result['user'],
           status: result['hasProfile'],
         ));
+      } else {
+        emit(AuthSuccessLogin(
+          user: user,
+          status: result['hasProfile'],
+        ));
       }
-
-      emit(AuthSuccessLogin(
-        user: user,
-        status: result['hasProfile'],
-      ));
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
@@ -78,7 +99,11 @@ class AuthCubit extends Cubit<AuthState> {
       client.id = user;
       await AuthRepository(remoteDataSource: AuthRemoteDataSource())
           .fillClientData(client: client);
-      emit(AuthSuccessFillData());
+      saveCurretnUserData(
+        id: client.id!,
+        type: "client",
+      );
+      emit(AuthSuccessFillData(data: client));
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
@@ -90,7 +115,28 @@ class AuthCubit extends Cubit<AuthState> {
       technician.id = user;
       await AuthRepository(remoteDataSource: AuthRemoteDataSource())
           .fillTechnicianData(technician: technician);
-      emit(AuthSuccessFillData());
+      saveCurretnUserData(
+        id: technician.id!,
+        type: "technician",
+      );
+      emit(AuthSuccessFillData(data: technician));
+    } catch (e) {
+      emit(AuthError(message: e.toString()));
+    }
+  }
+
+  saveCurretnUserData({required String type, required String id}) async {
+    SharedPreference().setString(key: "userID", value: id);
+    SharedPreference().setString(key: "userType", value: type);
+  }
+
+  signOut() async {
+    emit(AuthLoading());
+    try {
+      await AuthRepository(remoteDataSource: AuthRemoteDataSource()).signOut();
+      SharedPreference().clearData(key: "userID");
+      SharedPreference().clearData(key: "userType");
+      emit(AuthSignOutSuccess());
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }

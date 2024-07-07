@@ -2,7 +2,7 @@ import 'package:herafy/data/model/location.dart';
 
 abstract class User {
   String? id;
-  late String fName, lName, phone, type, status, gender;
+  late String fName, lName, phone, type, status, gender, birthDate;
   late Location location;
   //User({required this.fName, required this.lName, required this.phone});
 
@@ -17,6 +17,7 @@ abstract class User {
     required this.status,
     required this.gender,
     required this.location,
+    required this.birthDate,
   });
 
   User.fromJson(Map<String, dynamic> json);

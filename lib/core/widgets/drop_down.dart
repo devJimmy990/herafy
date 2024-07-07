@@ -60,16 +60,22 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
               ? const SizedBox()
               : Positioned.fill(
                   top: -9,
-                  left: 10,
+                  left: widget.isArabic ? 0 : 10,
+                  right: widget.isArabic ? 10 : 0,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: Align(
-                      alignment: Alignment.topLeft,
+                      alignment: widget.isArabic
+                          ? Alignment.topRight
+                          : Alignment.topLeft,
                       child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 3.0),
                           color: Colors.white,
                           child: Text(
                             widget.label ?? "Sdds",
+                            textDirection: widget.isArabic
+                                ? TextDirection.rtl
+                                : TextDirection.ltr,
                             style: const TextStyle(
                                 color: Colors.blue,
                                 fontSize: 12,

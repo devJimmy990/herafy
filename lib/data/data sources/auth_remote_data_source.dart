@@ -37,6 +37,7 @@ class AuthRemoteDataSource {
           return throw Exception("no-account-selected");
         }
         var data = await getUserData(firebaseAuth.currentUser!.uid);
+
         return {"user": firebaseAuth.currentUser!.uid, "data": data};
         // return firebaseAuth.currentUser?.uid;
       }
@@ -79,21 +80,6 @@ class AuthRemoteDataSource {
     }
   }
 
-  isUserHasProfile(String userId) async {
-    try {
-      DocumentSnapshot snapshot =
-          await firestore.collection("clients").doc(userId).get();
-      if (snapshot.data() != null) {
-        return snapshot.data();
-      } else if (snapshot.data() == null) {
-        snapshot = await firestore.collection("technicians").doc(userId).get();
-      }
-      return snapshot.data() == null ? false : true;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
   getUserData(String userId) async {
     try {
       DocumentSnapshot snapshot =
@@ -113,70 +99,4 @@ class AuthRemoteDataSource {
   signOut() async {
     await firebaseAuth.signOut();
   }
-  // Future<void> addFavoriteDoctorToPatient(
-  //     {required String patientId, required Doctor doctor}) async {
-  //   try {
-  //     final patientDocRef = firestore
-  //         .collection('patients')
-  //         .doc(patientId)
-  //         .collection("favorite_doctors");
-
-  //     await patientDocRef.doc(doctor.id).set(doctor.toJson());
-  //   } catch (e) {
-  //     throw Exception(e);
-  //   }
-  // }
-
-  // Future<void> removeFavoriteDoctorFromPatient(
-  //     {required String patientId, required String doctorId}) async {
-  //   try {
-  //     final patientDocRef = firestore
-  //         .collection('patients')
-  //         .doc(patientId)
-  //         .collection('favorite_doctors');
-
-  //     await patientDocRef.doc(doctorId).delete();
-  //   } catch (e) {
-  //     throw Exception(e);
-  //   }
-  // }
-
-  // Future<List<dynamic>> getFavoriteDoctors(String patientId) async {
-  //   try {
-  //     final patientDocRef = firestore
-  //         .collection('patients')
-  //         .doc(patientId)
-  //         .collection('favorite_doctors');
-  //     final snapshot = await patientDocRef.get();
-
-  //     final List<Map<String, dynamic>> favoriteDoctors =
-  //         snapshot.docs.map((doc) => doc.data()).toList();
-
-  //     return favoriteDoctors;
-  //   } catch (e) {
-  //     throw Exception(e);
-  //   }
-  // }
-
-  // Future<Map<String, dynamic>?> getFavoriteDoctorById(
-  //     {required String patientId, required String doctorId}) async {
-  //   try {
-  //     final patientDocRef = firestore
-  //         .collection('patients')
-  //         .doc(patientId)
-  //         .collection('favorite_doctors');
-
-  //     final snapshot =
-  //         await patientDocRef.where('id', isEqualTo: doctorId).get();
-
-  //     if (snapshot.docs.isNotEmpty) {
-  //       final Map<String, dynamic> favoriteDoctor = snapshot.docs.first.data();
-  //       return favoriteDoctor;
-  //     } else {
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
 }

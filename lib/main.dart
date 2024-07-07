@@ -9,6 +9,8 @@ import 'package:herafy/domain/cubit/auth/auth_cubit.dart';
 import 'package:herafy/presentation/auth/login/login.dart';
 import 'package:herafy/presentation/auth/signup/register.dart';
 import 'package:herafy/presentation/auth/signup/register_fill.dart';
+import 'package:herafy/presentation/client/home.dart';
+import 'package:herafy/presentation/technician/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,14 +35,23 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         locale: const Locale("ar"),
-      routes: {
-        Routes.login: (context) => const LoginPage(),
-        Routes.register: (context) => const RegisterationPage(),
-        Routes.registerFill: (context) => const RegisterFillData(),
-        Routes.adminHome: (context) => const AdminHome(),
-      },
-      initialRoute: Routes.login,
-      ),     
+        routes: {
+          /**Auth Routes */
+          Routes.login: (context) => const LoginPage(),
+          Routes.register: (context) => const RegisterationPage(),
+          Routes.registerFill: (context) => const RegisterationFillDataPage(),
+
+          /**Admin Routes */
+          Routes.adminHome: (context) => const AdminHome(),
+
+          /**Client Routes */
+          Routes.clientHome: (context) => const ClientHomePage(),
+
+          /**Technician Routes */
+          Routes.technicianHome: (context) => const TechnicianHomePage(),
+        },
+        initialRoute: Routes.login,
+      ),
     );
   }
 }

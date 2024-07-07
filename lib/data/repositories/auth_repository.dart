@@ -19,7 +19,22 @@ class AuthRepository {
 
   Future<Map<String, dynamic>> signInWithGoogle() async {
     try {
-      return await remoteDataSource.signInWithGoogle();
+      Map<String, dynamic> result = await remoteDataSource.signInWithGoogle();
+      if (result["data"] == null) {
+        return {
+          "user": result["user"],
+          "hasProfile": false,
+        };
+      } else {
+
+        return {
+          "user": result["user"],
+          "hasProfile": true,
+          "data": result["data"]["type"] == "client"
+              ? Client.fromJson(result["data"])
+              : Technician.fromJson(result["data"])
+        };
+      }
     } catch (e) {
       throw Exception(e);
     }
@@ -47,8 +62,6 @@ class AuthRepository {
               : Technician.fromJson(result["data"])
         };
       }
-
-      // return
     } catch (e) {
       throw Exception(e);
     }
@@ -69,6 +82,14 @@ class AuthRepository {
       return remoteDataSource.fillTechnicianData(
         technician: technician.toJson(),
       );
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  signOut() {
+    try {
+      return remoteDataSource.signOut();
     } catch (e) {
       throw Exception(e);
     }

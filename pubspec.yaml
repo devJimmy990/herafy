@@ -13,7 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  intl: ^0.17.0
   geocoding: ^3.0.0
   geolocator: ^12.0.0
   flutter_bloc: ^8.1.6
