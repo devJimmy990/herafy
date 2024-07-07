@@ -13,6 +13,7 @@ import 'package:herafy/data/model/location.dart';
 import 'package:herafy/data/model/technician.dart';
 import 'package:herafy/domain/cubit/auth/auth_cubit.dart';
 import 'package:herafy/domain/cubit/auth/auth_state.dart';
+import 'package:herafy/domain/cubit/user/user_cubit.dart';
 import 'package:intl/intl.dart';
 
 class RegisterationFillDataPage extends StatefulWidget {
@@ -238,6 +239,7 @@ class _RegisterationFillDataPageState extends State<RegisterationFillDataPage> {
                       listener: (context, state) {
                         if (state is AuthSuccessFillData) {
                           dynamic user = state.data;
+                          context.read<UserCubit>().setUserData(user);
 
                           Navigator.pushNamedAndRemoveUntil(
                             context,

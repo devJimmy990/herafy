@@ -9,6 +9,7 @@ import 'package:herafy/core/widgets/toast.dart';
 import 'package:herafy/data/model/client.dart';
 import 'package:herafy/domain/cubit/auth/auth_cubit.dart';
 import 'package:herafy/domain/cubit/auth/auth_state.dart';
+import 'package:herafy/domain/cubit/user/user_cubit.dart';
 import 'package:herafy/presentation/auth/widgets/auth.switch_page.dart';
 import 'package:herafy/presentation/auth/widgets/signin_option.dart';
 import 'package:herafy/presentation/auth/widgets/terms_conditions.dart';
@@ -164,7 +165,7 @@ class _LoginInputsState extends State<LoginInputs> {
               } else if (state is AuthSuccessLoginWithProfile) {
                 // SuccessToast.showToast(
                 //     msg: state.data is Client ? "Client" : "Technician");
-
+                context.read<UserCubit>().setUserData(state.data);
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   state.data is Client
