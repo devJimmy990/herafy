@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:herafy/core/helper/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:herafy/core/helper/firebase_options.dart';
+import 'package:herafy/presentation/admin/admin_home/admin_home.dart';
 import 'package:herafy/presentation/auth/login/login.dart';
 import 'package:herafy/presentation/auth/signup/register.dart';
 import 'package:herafy/presentation/auth/signup/register_fill.dart';
@@ -28,9 +29,10 @@ class MyApp extends StatelessWidget {
         Routes.login: (context) => const LoginPage(),
         Routes.register: (context) => const RegisterationPage(),
         Routes.registerFill: (context) => const RegisterFillData(),
+        Routes.adminHome: (context) => const AdminHome(),
       },
       initialRoute: Routes.login,
-      // home: const LoginPage(),
+      
     );
   }
 }
