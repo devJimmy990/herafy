@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:herafy/core/helper/routes.dart';
 import 'package:herafy/core/helper/validator.dart';
 import 'package:herafy/core/widgets/buttons.dart';
 import 'package:herafy/core/widgets/inputs.dart';
 import 'package:herafy/core/widgets/toast.dart';
+import 'package:herafy/domain/cubit/auth/auth_cubit.dart';
+import 'package:herafy/domain/cubit/auth/auth_state.dart';
 import 'package:herafy/presentation/auth/widgets/auth.switch_page.dart';
 import 'package:herafy/presentation/auth/widgets/signin_option.dart';
 import 'package:herafy/presentation/auth/widgets/terms_conditions.dart';
@@ -38,7 +41,6 @@ class LoginPage extends StatelessWidget {
                       fontSize: 16, height: 1.5, color: Colors.black54),
                 ),
                 const LoginInputs(),
-                signInOptions(),
                 Center(child: termsAndConditions()),
                 const SwitchAuthPage(
                   isArabic: true,
@@ -107,26 +109,86 @@ class _LoginInputsState extends State<LoginInputs> {
           //     onPressed: () {},
           //   ),
           // ),
-          buildSubmitButton(
-            label: "تسجيل الدخول",
-            widthFactor: .5,
-            onPressed: () async {
-              if (_formKey.currentState?.validate() == true) {
-                try {
-                  if (_emailController.text == "admin@herafy.com" &&
-                      _passwordController.text == "123456") {
-                    navigate(route: Routes.adminHome);
-                  } else {
-                    await loginUser();
-                    // context.read<UserCubit>().login();
-                    // navigate(route: Routes.home);
+          BlocConsumer<AuthCubit, AuthState>(
+            builder: (context, state) {
+              return buildSubmitButton(
+                label: "تسجيل الدخول",
+                widthFactor: .5,
+                onPressed: () {
+                  if (_formKey.currentState?.validate() == true &&
+                      state is! AuthLoading) {
+                    try {
+                      if (_emailController.text == "admin@herafy.com" &&
+                          _passwordController.text == "123456") {
+                        navigate(route: Routes.adminHome);
+                      } else {
+                        // await loginUser();
+                        context.read<AuthCubit>().signInWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            );
+                        // navigate(route: Routes.home);
+                      }
+                    } catch (e) {
+                      FailureToast.showToast(
+                          msg: Validator.firebaseLoginValidator(e.toString()));
+                    }
                   }
-                } catch (e) {
-                  FailureToast.showToast(
-                      msg: Validator.firebaseLoginValidator(e.toString()));
-                }
+                },
+              );
+            },
+            listener: (context, state) {
+              if (state is AuthSuccessLogin) {
+                SuccessToast.showToast(msg: "تم التسجيل بنجاح");
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.registerFill,
+                  (route) => false,
+                );
+              } else if (state is AuthSuccessLoginWithProfile) {
+                SuccessToast.showToast(msg: "تم التسجيل بنجاح");
+                navigate(route: Routes.register);
+              } else if (state is AuthError) {
+                FailureToast.showToast(
+                    msg: Validator.firebaseRegisterValidator(
+                  state.message,
+                ));
               }
             },
+          ),
+          BlocBuilder<AuthCubit, AuthState>(builder: (context, state) {
+            if (state is AuthLoading) {
+              return const CircularProgressIndicator();
+            }
+            return Column(
+              children: [
+                signInOptions(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: buildOptionButton(
+                    src: 'google',
+                    onTap: () async {},
+                  ),
+                ),
+                Center(child: termsAndConditions()),
+                const SwitchAuthPage(
+                  isArabic: true,
+                  link: " تسجيل الدخول",
+                  route: Routes.login,
+                  label: "هل لديك حساب بالفعل؟",
+                ),
+                const SizedBox(height: 16.0),
+              ],
+            );
+          }),
+
+          signInOptions(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: buildOptionButton(
+              src: 'google',
+              onTap: () async {},
+            ),
           ),
         ],
       ),

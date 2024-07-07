@@ -79,15 +79,17 @@ Widget buildTextField({
   required String? Function(String?) validator,
   TextInputType keyboardType = TextInputType.text,
 }) {
-  return TextFormField(
-    validator: validator,
-    controller: controller,
-    keyboardType: keyboardType,
+  return Directionality(
     textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
-    decoration: InputDecoration(
-      labelText: label,
-      prefixIcon: icon != null ? Icon(icon) : null,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+    child: TextFormField(
+      validator: validator,
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: icon != null ? Icon(icon) : null,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+      ),
     ),
   );
 }

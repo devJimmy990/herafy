@@ -81,7 +81,7 @@ class _DoctorAdditionalInfoState extends State<DoctorAdditionalInfo> {
                               flex: 1, child: Text('Graduation Year')),
                           Expanded(
                             flex: 2,
-                            child: customIconPicker(
+                            child: IconPicker(
                               label: 'Select Graduation Year',
                               icon: Icons.calendar_month,
                               controller: _dateController,

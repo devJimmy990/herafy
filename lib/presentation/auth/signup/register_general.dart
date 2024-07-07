@@ -1,8 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:herafy/core/helper/location.dart';
 import 'package:herafy/core/helper/validator.dart';
 import 'package:herafy/core/widgets/buttons.dart';
 import 'package:herafy/core/widgets/drop_down.dart';
+import 'package:herafy/core/widgets/icon_picker.dart';
 import 'package:herafy/core/widgets/inputs.dart';
 import 'package:herafy/core/widgets/toast.dart';
 
@@ -15,9 +16,9 @@ class RegisterGeneral extends StatefulWidget {
 }
 
 class _RegisterGeneralState extends State<RegisterGeneral> {
-  File? image;
-  String type = "Patient";
-  String gender = "Male";
+  // File? image;
+  String type = "عميل";
+  String gender = "ذكر";
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _fNameController = TextEditingController();
   final TextEditingController _lNameController = TextEditingController();
@@ -58,28 +59,34 @@ class _RegisterGeneralState extends State<RegisterGeneral> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(vertical: 10),
-                //   child: CustomImagePicker(
-                //     image: image,
-                //     onFileSelected: () async => await _pickImage(),
-                //   ),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: CircleAvatar(
+                    radius: 85,
+                    backgroundColor: Colors.black,
+                    child: CircleAvatar(
+                        radius: 80,
+                        child: Image.asset("assets/images/profile.png")),
+                  ),
+                ),
                 buildTextField(
-                  controller: _fNameController,
-                  label: 'الإسم الأول',
+                  isArabic: true,
                   icon: Icons.person,
+                  label: 'الإسم الأول',
+                  controller: _fNameController,
                   validator: (Validator.nameValidator),
                 ),
                 const SizedBox(height: 15),
                 buildTextField(
-                  controller: _lNameController,
-                  label: 'الإسم الثانى',
+                  isArabic: true,
                   icon: Icons.person,
+                  label: 'الإسم الثانى',
+                  controller: _lNameController,
                   validator: (Validator.nameValidator),
                 ),
                 const SizedBox(height: 15),
                 buildNumberField(
+                  isArabic: true,
                   label: "رقم الهاتف",
                   icon: Icons.phone_android,
                   controller: _phoneController,
@@ -89,82 +96,84 @@ class _RegisterGeneralState extends State<RegisterGeneral> {
                 Row(
                   children: <Widget>[
                     Expanded(
+                      flex: 3,
+                      child: IconPicker(
+                          isArabic: true,
+                          label: 'العنوان',
+                          icon: Icons.location_on,
+                          controller: _locationController,
+                          validator: (Validator.generalValidator),
+                          onPressed: () async {
+                            try {
+                              CustomLocation().accessLocation(
+                                callBack: (position) => setState(
+                                  () => _locationController.text =
+                                      position.toString(),
+                                ),
+                              );
+                            } catch (e) {
+                              // print("Errooooooooooor: ${e.toString()}");
+                              FailureToast.showToast(
+                                  msg: Validator.locationValidator(
+                                      e.toString()));
+                            }
+                          }),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
                       flex: 2,
                       child: CustomDropDownMenu(
                         value: type,
+                        isArabic: true,
                         label: "إختيار نوع المستخدم",
                         list: const ["عميل", "حرفى"],
                         onChanged: (String? newVal) =>
                             setState(() => type = newVal!),
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    // Expanded(
-                    //   flex: 3,
-                    //   child: customIconPicker(
-                    //       icon: Icons.location_on,
-                    //       label: 'Address Location',
-                    //       controller: _locationController,
-                    //       validator: (Validator.generalValidator),
-                    //       onPressed: () async {
-                    //         try {
-                    //           CustomLocation().accessLocation(
-                    //             callBack: (position) => setState(
-                    //               () => _locationController.text =
-                    //                   position.toString(),
-                    //             ),
-                    //           );
-                    //         } catch (e) {
-                    //           // print("Errooooooooooor: ${e.toString()}");
-                    //           FailureToast.showToast(
-                    //               msg: Validator.locationValidator(
-                    //                   e.toString()));
-                    //         }
-                    //       }),
-                    // ),
                   ],
                 ),
                 const SizedBox(height: 15),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 2,
-                      child: CustomDropDownMenu(
-                        value: gender,
-                        label: "النوع",
-                        list: const ["ذكر", "إنثى"],
-                        onChanged: (String? newVal) =>
-                            setState(() => gender = newVal!),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    // Expanded(
-                    //     flex: 3,
-                    //     child: customIconPicker(
-                    //       isCenter: true,
-                    //       label: 'Birth Date',
-                    //       icon: Icons.calendar_month,
-                    //       controller: _birthDateController,
-                    //       validator: (Validator.generalValidator),
-                    //       onPressed: () async {
-                    //         final DateTime? picked = await showDatePicker(
-                    //           context: context,
-                    //           helpText: "Select Birth Date",
-                    //           initialDate: DateTime.now(),
-                    //           firstDate: DateTime(1900),
-                    //           lastDate: DateTime(2100),
-                    //         );
-                    //         if (picked != null) {
-                    //           setState(() {
-                    //             _birthDateController.text =
-                    //                 DateFormat('yyyy-MM-dd').format(picked);
-                    //           });
-                    //         }
-                    //       },
-                    //     )),
-                  ],
-                ),
-                const SizedBox(height: 15),
+                // Row(
+                //   children: <Widget>[
+                //     Expanded(
+                //       flex: 2,
+                //       child: CustomDropDownMenu(
+                //         value: gender,
+                //         label: "النوع",
+                //         list: const ["ذكر", "إنثى"],
+                //         onChanged: (String? newVal) =>
+                //             setState(() => gender = newVal!),
+                //       ),
+                //     ),
+                //     const SizedBox(width: 10),
+                //     // Expanded(
+                //     //     flex: 3,
+                //     //     child: customIconPicker(
+                //     //       isCenter: true,
+                //     //       label: 'Birth Date',
+                //     //       icon: Icons.calendar_month,
+                //     //       controller: _birthDateController,
+                //     //       validator: (Validator.generalValidator),
+                //     //       onPressed: () async {
+                //     //         final DateTime? picked = await showDatePicker(
+                //     //           context: context,
+                //     //           helpText: "Select Birth Date",
+                //     //           initialDate: DateTime.now(),
+                //     //           firstDate: DateTime(1900),
+                //     //           lastDate: DateTime(2100),
+                //     //         );
+                //     //         if (picked != null) {
+                //     //           setState(() {
+                //     //             _birthDateController.text =
+                //     //                 DateFormat('yyyy-MM-dd').format(picked);
+                //     //           });
+                //     //         }
+                //     //       },
+                //     //     )),
+                //   ],
+                // ),
+                // const SizedBox(height: 15),
                 buildSubmitButton(
                   label: "التالى",
                   widthFactor: .7,

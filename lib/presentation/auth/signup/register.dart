@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:herafy/core/helper/routes.dart';
-import 'package:herafy/core/helper/validator.dart';
-import 'package:herafy/core/widgets/buttons.dart';
-import 'package:herafy/core/widgets/check_box.dart';
 import 'package:herafy/core/widgets/inputs.dart';
-// import 'package:herafy/core/widgets/toast.dart';
-import 'package:herafy/presentation/auth/widgets/auth.switch_page.dart';
+import 'package:herafy/core/widgets/buttons.dart';
+import 'package:herafy/core/helper/validator.dart';
+import 'package:herafy/core/widgets/check_box.dart';
+import 'package:herafy/core/widgets/toast.dart';
+import 'package:herafy/domain/cubit/auth/auth_cubit.dart';
+import 'package:herafy/domain/cubit/auth/auth_state.dart';
 import 'package:herafy/presentation/auth/widgets/signin_option.dart';
 import 'package:herafy/presentation/auth/widgets/terms_conditions.dart';
+import 'package:herafy/presentation/auth/widgets/auth.switch_page.dart';
 
 class RegisterationPage extends StatefulWidget {
   const RegisterationPage({super.key});
@@ -92,27 +94,65 @@ class _RegisterationPageState extends State<RegisterationPage> {
                     }),
                   ),
                   const SizedBox(height: 8.0),
-                  buildSubmitButton(
-                    widthFactor: .5,
-                    label: "إنشاء حساب",
-                    onPressed: () {
-                      // navigate(route: Routes.registerFill);
-                      if (_formKey.currentState?.validate() == true) {
-                        createNewUser();
-                        navigate(route: Routes.registerFill);
+                  BlocConsumer<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      return buildSubmitButton(
+                        widthFactor: .5,
+                        label: "إنشاء حساب",
+                        onPressed: () async {
+                          if (_formKey.currentState?.validate() == true &&
+                              state is! AuthLoading) {
+                            context
+                                .read<AuthCubit>()
+                                .createAccountWithEmailAndPassword(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                );
+                          }
+                        },
+                      );
+                    },
+                    listener: (context, state) {
+                      if (state is AuthAccountCreated) {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          Routes.registerFill,
+                          (route) => false,
+                        );
+                      } else if (state is AuthError) {
+                        FailureToast.showToast(
+                            msg: Validator.firebaseRegisterValidator(
+                          state.message,
+                        ));
                       }
                     },
                   ),
                   const SizedBox(height: 8.0),
-                  signInOptions(),
-                  Center(child: termsAndConditions()),
-                  const SwitchAuthPage(
-                    isArabic: true,
-                    link: " تسجيل الدخول",
-                    route: Routes.login,
-                    label: "هل لديك حساب بالفعل؟",
-                  ),
-                  const SizedBox(height: 16.0),
+                  BlocBuilder<AuthCubit, AuthState>(builder: (context, state) {
+                    if (state is AuthLoading) {
+                      return const CircularProgressIndicator();
+                    }
+                    return Column(
+                      children: [
+                        signInOptions(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: buildOptionButton(
+                            src: 'google',
+                            onTap: () async {},
+                          ),
+                        ),
+                        Center(child: termsAndConditions()),
+                        const SwitchAuthPage(
+                          isArabic: true,
+                          link: " تسجيل الدخول",
+                          route: Routes.login,
+                          label: "هل لديك حساب بالفعل؟",
+                        ),
+                        const SizedBox(height: 16.0),
+                      ],
+                    );
+                  }),
                 ],
               ),
             ),
