@@ -10,7 +10,7 @@ import 'package:herafy/domain/cubit/auth/auth_cubit.dart';
 import 'package:herafy/presentation/auth/login/login.dart';
 import 'package:herafy/presentation/auth/signup/register.dart';
 import 'package:herafy/presentation/auth/signup/register_fill.dart';
-import 'package:herafy/presentation/client/home.dart';
+import 'package:herafy/presentation/client/client_home.dart';
 import 'package:herafy/presentation/home_landing.dart';
 import 'package:herafy/presentation/technician/home.dart';
 
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           Routes.adminHome: (context) => const AdminHome(),
 
           /**Client Routes */
-          Routes.clientHome: (context) => const ClientHomePage(),
+          Routes.clientHome: (context) => const ClientHome(),
 
           /**Technician Routes */
           Routes.technicianHome: (context) => const TechnicianHomePage(),
