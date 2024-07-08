@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:herafy/core/helper/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:herafy/core/helper/firebase_options.dart';
+import 'package:herafy/domain/cubit/order/order_cubit.dart';
 import 'package:herafy/domain/cubit/user/user_cubit.dart';
 import 'package:herafy/presentation/admin/admin_home/admin_home.dart';
 import 'package:herafy/core/helper/shared_preferences.dart';
@@ -12,7 +13,7 @@ import 'package:herafy/presentation/auth/signup/register.dart';
 import 'package:herafy/presentation/auth/signup/register_fill.dart';
 import 'package:herafy/presentation/client/home.dart';
 import 'package:herafy/presentation/home_landing.dart';
-import 'package:herafy/presentation/technician/home.dart';
+import 'package:herafy/presentation/technician/home/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(create: (context) => UserCubit()),
+        BlocProvider(create: (context) => OrderCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
