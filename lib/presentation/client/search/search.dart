@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:herafy/presentation/client/search/technicians_card.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -8,22 +9,22 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  FocusNode _focusNode = FocusNode();
+  FocusNode focusNode = FocusNode();
   bool _isFocused = false;
 
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(() {
+    focusNode.addListener(() {
       setState(() {
-        _isFocused = _focusNode.hasFocus;
+        _isFocused = focusNode.hasFocus;
       });
     });
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -34,12 +35,13 @@ class _SearchScreenState extends State<SearchScreen> {
         padding: const EdgeInsets.only(top: 50.0, right: 16.0, left: 16.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 width: _isFocused ? double.infinity : 200.0,
                 child: TextFormField(
-                  focusNode: _focusNode,
+                  focusNode: focusNode,
                   decoration: InputDecoration(
                     hintText: 'ابحث...',
                     border: OutlineInputBorder(
@@ -49,7 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               if (_isFocused) ...[
-                const SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -70,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         onChanged: (String? newValue) {},
                       ),
                     ),
-                    const SizedBox(width: 16.0),
+                    SizedBox(width: 16.0),
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
@@ -92,14 +94,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   ],
                 ),
               ],
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   physics: const NeverScrollableScrollPhysics(),
-              //   itemCount: 3,
-              //   itemBuilder: (context, index) {
-              //     return Text('item $index');
-              //   },
-              // )
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return TechnicianCard();
+                },
+              )
             ],
           ),
         ),
