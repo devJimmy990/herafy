@@ -92,14 +92,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   ],
                 ),
               ],
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Text('item $index');
-                },
-              )
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   itemCount: 3,
+              //   itemBuilder: (context, index) {
+              //     return Text('item $index');
+              //   },
+              // )
             ],
           ),
         ),

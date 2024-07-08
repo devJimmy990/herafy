@@ -11,34 +11,35 @@ class ClientHome extends StatefulWidget {
 }
 
 class _ClientHomeState extends State<ClientHome> {
-  int _currentIndex = 1;
+  int currentIndex = 1;
 
-  final List<Widget> _screens = [
+  final List<Widget> screens = [
     const ClientProfile(),
     const SearchScreen(),
     const AddPost(),
   ];
 
-  void _onTabTapped(int index) {
+  void onTabTapped(int index) {
     setState(() {
-      _currentIndex = index;
+      currentIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: screens[currentIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _onTabTapped(1);
+          onTabTapped(2);
         },
         backgroundColor: Colors.blue,
         shape: const CircleBorder(),
-        child: const Icon(Icons.home),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
+        height: 60,
         shape: const CircularNotchedRectangle(),
         notchMargin: 10.0,
         child: Row(
@@ -47,14 +48,14 @@ class _ClientHomeState extends State<ClientHome> {
             IconButton(
               icon: const Icon(Icons.person),
               onPressed: () {
-                _onTabTapped(0);
+                onTabTapped(0);
               },
             ),
             const SizedBox(width: 40), // Space for the floating button
             IconButton(
-              icon: const Icon(Icons.add),
+              icon: const Icon(Icons.search),
               onPressed: () {
-                _onTabTapped(2);
+                onTabTapped(1);
               },
             ),
           ],
