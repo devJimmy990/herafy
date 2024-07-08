@@ -75,7 +75,7 @@ class ClientProfile extends StatelessWidget {
                 margin: const EdgeInsets.all(16.0),
                 child: const Row(
                   children: [
-                    const SizedBox(width: 20),
+                    SizedBox(width: 20),
                     Text(
                       ' الطلبات المنشوره',
                       style: TextStyle(
@@ -91,7 +91,7 @@ class ClientProfile extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: 3,
                 itemBuilder: (context, index) {
-                  return PostCard();
+                  return const PostCard();
                 },
               ),
             ],

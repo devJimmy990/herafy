@@ -33,26 +33,26 @@ class _ClientHomeState extends State<ClientHome> {
         onPressed: () {
           _onTabTapped(1);
         },
-        child: Icon(Icons.home),
         backgroundColor: Colors.blue,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
+        child: const Icon(Icons.home),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 10.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.person),
+              icon: const Icon(Icons.person),
               onPressed: () {
                 _onTabTapped(0);
               },
             ),
-            SizedBox(width: 40), // Space for the floating button
+            const SizedBox(width: 40), // Space for the floating button
             IconButton(
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
               onPressed: () {
                 _onTabTapped(2);
               },

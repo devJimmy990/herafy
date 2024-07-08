@@ -36,7 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Column(
             children: <Widget>[
               AnimatedContainer(
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 width: _isFocused ? double.infinity : 200.0,
                 child: TextFormField(
                   focusNode: _focusNode,
@@ -49,7 +49,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               if (_isFocused) ...[
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -70,7 +70,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         onChanged: (String? newValue) {},
                       ),
                     ),
-                    SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
@@ -94,7 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ],
               ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: 3,
                 itemBuilder: (context, index) {
                   return Text('item $index');

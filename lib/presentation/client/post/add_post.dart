@@ -51,7 +51,7 @@ class _AddPostState extends State<AddPost> {
               color: checkColor,
               size: 25,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             )
           ],
@@ -65,7 +65,7 @@ class _AddPostState extends State<AddPost> {
                   validateForm();
                 },
                 controller: descriptionController,
-                decoration: InputDecoration(hintText: 'التفاصيل'),
+                decoration: const InputDecoration(hintText: 'التفاصيل'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'يرجى إدخال وصف الطلب';
@@ -77,7 +77,7 @@ class _AddPostState extends State<AddPost> {
               ),
               DropdownButtonFormField<String>(
                 value: selectedSpecialty,
-                decoration: InputDecoration(labelText: 'التخصص المطلوب'),
+                decoration: const InputDecoration(labelText: 'التخصص المطلوب'),
                 items: specialties.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -99,7 +99,7 @@ class _AddPostState extends State<AddPost> {
               ),
               DropdownButtonFormField<String>(
                 value: selectedLocation,
-                decoration: InputDecoration(labelText: 'الموقع الأقرب'),
+                decoration: const InputDecoration(labelText: 'الموقع الأقرب'),
                 items: locations.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -119,16 +119,16 @@ class _AddPostState extends State<AddPost> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     // Process the form data
                     ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('تم إضافة الطلب بنجاح')));
+                        const SnackBar(content: Text('تم إضافة الطلب بنجاح')));
                   }
                 },
-                child: Text('إضافة الطلب'),
+                child: const Text('إضافة الطلب'),
               ),
             ],
           ),
