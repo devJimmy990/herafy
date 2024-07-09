@@ -5,6 +5,7 @@ import 'package:herafy/data/model/user.dart';
 import 'package:herafy/domain/cubit/order/order_cubit.dart';
 import 'package:herafy/domain/cubit/order/order_state.dart';
 import 'package:herafy/domain/cubit/user/user_cubit.dart';
+import 'package:herafy/presentation/client/profile/post_card.dart';
 
 class AddPost extends StatelessWidget {
   const AddPost({super.key});
@@ -29,8 +30,8 @@ class AddPost extends StatelessWidget {
                   : ListView.builder(
                       itemCount: state.orders.length,
                       itemBuilder: (context, index) {
-                        return Text(
-                          state.orders[index].description,
+                        return PostCard(
+                          order: state.orders[index],
                         );
                       });
             } else if (state is OrderError) {
