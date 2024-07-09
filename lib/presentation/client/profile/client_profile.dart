@@ -44,7 +44,7 @@ class ClientProfile extends StatelessWidget {
                     'https://img.freepik.com/premium-photo/there-is-cat-that-is-sitting-ledge-chinese-garden-generative-ai_900396-35755.jpg'), // Replace with your image asset
               ),
               const SizedBox(height: 20),
-               Text(
+              Text(
                 client.fName,
                 style: const TextStyle(
                   fontSize: 24,
@@ -100,14 +100,14 @@ class ClientProfile extends StatelessWidget {
                   ],
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return const PostCard();
-                },
-              ),
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   itemCount: 3,
+              //   itemBuilder: (context, index) {
+              //     return const PostCard();
+              //   },
+              // ),
             ],
           ),
         ),

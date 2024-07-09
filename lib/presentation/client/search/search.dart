@@ -10,22 +10,22 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final FocusNode _focusNode = FocusNode();
-  bool _isFocused = false;
+  // final FocusNode _focusNode = FocusNode();
+  // bool _isFocused = false;
   late String speciality = "سباك";
   @override
   void initState() {
     super.initState();
-    focusNode.addListener(() {
-      setState(() {
-        _isFocused = focusNode.hasFocus;
-      });
-    });
+    // focusNode.addListener(() {
+    //   setState(() {
+    //     _isFocused = focusNode.hasFocus;
+    //   });
+    // });
   }
 
   @override
   void dispose() {
-    focusNode.dispose();
+    // focusNode.dispose();
     super.dispose();
   }
 
@@ -38,65 +38,65 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                duration: const Duration(milliseconds: 300),
-                width: _isFocused ? double.infinity : 200.0,
-                child: TextFormField(
-                  focusNode: focusNode,
-                  decoration: InputDecoration(
-                    hintText: 'ابحث...',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+              // AnimatedContainer(
+              //   duration: const Duration(milliseconds: 300),
+              //   duration: const Duration(milliseconds: 300),
+              //   width: _isFocused ? double.infinity : 200.0,
+              //   child: TextFormField(
+              //     focusNode: focusNode,
+              //     decoration: InputDecoration(
+              //       hintText: 'ابحث...',
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(10.0),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // if (_isFocused) ...[
+              const SizedBox(height: 16.0),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        labelText: 'الموقع',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      items: <String>['القاهره', 'اسكندريه', 'كفر الشيخ']
+                          .map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {},
                     ),
                   ),
-                ),
+                  const SizedBox(width: 16.0),
+                  Expanded(
+                    child: CustomDropDownMenu(
+                      isArabic: true,
+                      value: speciality,
+                      label: "إختر التخصص",
+                      list: technicainSpecialties,
+                      onChanged: (newVal) =>
+                          setState(() => speciality = newVal!),
+                    ),
+                  ),
+                ],
               ),
-              if (_isFocused) ...[
-                const SizedBox(height: 16.0),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          labelText: 'الموقع',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        items: <String>['القاهره', 'اسكندريه', 'كفر الشيخ']
-                            .map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {},
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Expanded(
-                      child: CustomDropDownMenu(
-                        isArabic: true,
-                        value: speciality,
-                        label: "إختر التخصص",
-                        list: technicainSpecialties,
-                        onChanged: (newVal) =>
-                            setState(() => speciality = newVal!),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return TechnicianCard();
-                },
-              )
             ],
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   itemCount: 3,
+            //   itemBuilder: (context, index) {
+            //     return TechnicianCard();
+            //   },
+            // )
+            // ],
           ),
         ),
       ),

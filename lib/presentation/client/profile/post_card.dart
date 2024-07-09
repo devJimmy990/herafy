@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:herafy/data/model/order.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key});
+  final Order order;
+  const PostCard({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
-    final String serviceDescription =
-        "نحن نبحث عن مصمم جرافيك محترف لتصميم شعار جديد لشركتنا.";
-    final String requiredSpecialization = "مصمم جرافيك";
-    final String proposedPrice = "1000 جنيه مصري";
-    final String nearestLocation = "القاهرة";
-    final int applicantsCount = 10;
     return Container(
       height: 350,
       width: double.infinity,
@@ -33,38 +29,38 @@ class PostCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'وصف الخدمة',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              serviceDescription,
-              style: TextStyle(fontSize: 14),
+              order.description,
+              style: const TextStyle(fontSize: 14),
             ),
             const Divider(height: 20, thickness: 1),
             Row(
               children: [
                 const Icon(Icons.work),
                 const SizedBox(width: 8),
-                Text(requiredSpecialization,
-                    style: const TextStyle(fontSize: 16)),
+                Text(order.speciality, style: const TextStyle(fontSize: 16)),
               ],
             ),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                const Icon(Icons.monetization_on),
-                const SizedBox(width: 8),
-                Text(proposedPrice, style: const TextStyle(fontSize: 16)),
-              ],
-            ),
-            const SizedBox(height: 8),
+            // Row(
+            //   children: [
+            //     const Icon(Icons.monetization_on),
+            //     const SizedBox(width: 8),
+            //     Text(proposedPrice, style: const TextStyle(fontSize: 16)),
+            //   ],
+            // ),
+            // const SizedBox(height: 8),
             Row(
               children: [
                 const Icon(Icons.location_on),
                 const SizedBox(width: 8),
-                Text(nearestLocation, style: const TextStyle(fontSize: 16)),
+                Text(order.location.toString(),
+                    style: const TextStyle(fontSize: 16)),
               ],
             ),
             const SizedBox(height: 8),
@@ -72,20 +68,20 @@ class PostCard extends StatelessWidget {
               children: [
                 const Icon(Icons.people),
                 const SizedBox(width: 8),
-                Text('$applicantsCount أشخاص قدموا على هذه الخدمة',
+                Text('${order.proposals.length} أشخاص قدموا على هذه الخدمة',
                     style: const TextStyle(fontSize: 16)),
               ],
             ),
             const SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Add your application logic here
-                  print('تم التقديم على الخدمة');
-                },
-                child: const Text('قدّم الآن', style: TextStyle(fontSize: 16)),
-              ),
-            ),
+            // Center(
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       // Add your application logic here
+            //       print('تم التقديم على الخدمة');
+            //     },
+            //     child: const Text('قدّم الآن', style: TextStyle(fontSize: 16)),
+            //   ),
+            // ),
           ],
         ),
       ),
