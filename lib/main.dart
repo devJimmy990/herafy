@@ -14,6 +14,7 @@ import 'package:herafy/presentation/auth/signup/register_fill.dart';
 import 'package:herafy/presentation/client/client_home.dart';
 import 'package:herafy/presentation/home_landing.dart';
 import 'package:herafy/presentation/technician/home.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,14 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         locale: const Locale("ar"),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('ar'),
+        ],
         routes: {
           /**Auth Routes */
           Routes.login: (context) => const LoginPage(),
