@@ -37,52 +37,53 @@ class PostCard extends StatelessWidget {
               'وصف الخدمة',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               serviceDescription,
               style: TextStyle(fontSize: 14),
             ),
-            Divider(height: 20, thickness: 1),
+            const Divider(height: 20, thickness: 1),
             Row(
               children: [
-                Icon(Icons.work),
-                SizedBox(width: 8),
-                Text(requiredSpecialization, style: TextStyle(fontSize: 16)),
+                const Icon(Icons.work),
+                const SizedBox(width: 8),
+                Text(requiredSpecialization,
+                    style: const TextStyle(fontSize: 16)),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.monetization_on),
-                SizedBox(width: 8),
-                Text(proposedPrice, style: TextStyle(fontSize: 16)),
+                const Icon(Icons.monetization_on),
+                const SizedBox(width: 8),
+                Text(proposedPrice, style: const TextStyle(fontSize: 16)),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.location_on),
-                SizedBox(width: 8),
-                Text(nearestLocation, style: TextStyle(fontSize: 16)),
+                const Icon(Icons.location_on),
+                const SizedBox(width: 8),
+                Text(nearestLocation, style: const TextStyle(fontSize: 16)),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.people),
-                SizedBox(width: 8),
+                const Icon(Icons.people),
+                const SizedBox(width: 8),
                 Text('$applicantsCount أشخاص قدموا على هذه الخدمة',
-                    style: TextStyle(fontSize: 16)),
+                    style: const TextStyle(fontSize: 16)),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Center(
               child: ElevatedButton(
                 onPressed: () {
                   // Add your application logic here
                   print('تم التقديم على الخدمة');
                 },
-                child: Text('قدّم الآن', style: TextStyle(fontSize: 16)),
+                child: const Text('قدّم الآن', style: TextStyle(fontSize: 16)),
               ),
             ),
           ],

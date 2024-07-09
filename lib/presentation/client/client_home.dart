@@ -13,62 +13,50 @@ class ClientHome extends StatefulWidget {
 }
 
 class _ClientHomeState extends State<ClientHome> {
-  int index = 0;
+  int _currentIndex = 1;
 
   final List<Widget> _screens = [
-    const AddPost(),
     const ClientProfile(),
     const SearchScreen(),
   ];
 
+  void _onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[index],
-      floatingActionButton: index == 1
-          ? null
-          : FloatingActionButton(
+      body: _screens[_currentIndex],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _onTabTapped(1);
+        },
+        backgroundColor: Colors.blue,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.home),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 10.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.person),
               onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => const AddPostBottomSheet(),
-                );
+                _onTabTapped(0);
               },
-              backgroundColor: Colors.blue,
-              child: const Icon(
-                Icons.add,
-                size: 28,
-                color: Colors.white,
-              ),
             ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 10),
-          ],
-        ),
-        child: GNav(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          gap: 10,
-          iconSize: 28,
-          color: Colors.white,
-          activeColor: Colors.white,
-          backgroundColor: Colors.black,
-          curve: Curves.easeInOut,
-          onTabChange: (value) => setState(() => index = value),
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-          tabs: const [
-            GButton(
-              icon: Icons.home,
-              text: 'الرئيسية',
-            ),
-            GButton(
-              icon: Icons.person,
-              text: 'الملف الشخصي',
+            const SizedBox(width: 40), // Space for the floating button
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                _onTabTapped(2);
+              },
             ),
           ],
         ),

@@ -16,16 +16,16 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(() {
+    focusNode.addListener(() {
       setState(() {
-        _isFocused = _focusNode.hasFocus;
+        _isFocused = focusNode.hasFocus;
       });
     });
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -36,12 +36,14 @@ class _SearchScreenState extends State<SearchScreen> {
         padding: const EdgeInsets.only(top: 50.0, right: 16.0, left: 16.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 width: _isFocused ? double.infinity : 200.0,
                 child: TextFormField(
-                  focusNode: _focusNode,
+                  focusNode: focusNode,
                   decoration: InputDecoration(
                     hintText: 'ابحث...',
                     border: OutlineInputBorder(
@@ -91,7 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: 3,
                 itemBuilder: (context, index) {
-                  return Text('item $index');
+                  return TechnicianCard();
                 },
               )
             ],
