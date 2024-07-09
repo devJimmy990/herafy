@@ -5,7 +5,8 @@ import 'package:herafy/data/model/user.dart';
 import 'package:herafy/domain/cubit/order/order_cubit.dart';
 import 'package:herafy/domain/cubit/order/order_state.dart';
 import 'package:herafy/domain/cubit/user/user_cubit.dart';
-import 'package:herafy/presentation/client/profile/post_card.dart';
+import 'package:herafy/presentation/client/post/post_card.dart';
+// import 'package:herafy/presentation/client/profile/post_card.dart';
 
 class AddPost extends StatelessWidget {
   const AddPost({super.key});

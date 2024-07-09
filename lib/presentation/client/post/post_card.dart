@@ -8,8 +8,6 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350,
-      width: double.infinity,
       padding: const EdgeInsets.only(top: 5, bottom: 5, right: 10),
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       decoration: BoxDecoration(
@@ -27,6 +25,7 @@ class PostCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          textDirection: TextDirection.rtl,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
@@ -40,6 +39,8 @@ class PostCard extends StatelessWidget {
             ),
             const Divider(height: 20, thickness: 1),
             Row(
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Icon(Icons.work),
                 const SizedBox(width: 8),
@@ -47,90 +48,52 @@ class PostCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            // Row(
-            //   children: [
-            //     const Icon(Icons.monetization_on),
-            //     const SizedBox(width: 8),
-            //     Text(proposedPrice, style: const TextStyle(fontSize: 16)),
-            //   ],
-            // ),
-            // const SizedBox(height: 8),
             Row(
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Icon(Icons.location_on),
+                const Icon(Icons.calendar_month),
                 const SizedBox(width: 8),
-                Text(order.location.toString(),
+                Text(order.date, style: const TextStyle(fontSize: 16)),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Icon(Icons.people),
+                const SizedBox(width: 8),
+                Text(
+                    order.proposals.isEmpty ? "لا يوجد عروض مقدمة على هذه الخدمة" : '${order.proposals.length} أشخاص قدموا على هذه الخدمة',
                     style: const TextStyle(fontSize: 16)),
               ],
             ),
             const SizedBox(height: 8),
             Row(
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.people),
+                const Icon(Icons.location_on),
                 const SizedBox(width: 8),
-                Text('${order.proposals.length} أشخاص قدموا على هذه الخدمة',
-                    style: const TextStyle(fontSize: 16)),
+                Expanded(
+                  child: Text(
+                    order.location.toString(),
+                    maxLines: 2,
+                    softWrap: false,
+                    textDirection: TextDirection.rtl,
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 20),
-            // Center(
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //       // Add your application logic here
-            //       print('تم التقديم على الخدمة');
-            //     },
-            //     child: const Text('قدّم الآن', style: TextStyle(fontSize: 16)),
-            //   ),
-            // ),
           ],
         ),
       ),
-      //  Padding(
-      //   padding: const EdgeInsets.all(16.0),
-      //   child: Column(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: [
-      //       Text(
-      //         'وصف الخدمة',
-      //         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      //       ),
-      //       SizedBox(height: 10),
-      //       Text(
-      //         serviceDescription,
-      //         style: TextStyle(fontSize: 16),
-      //       ),
-      //       Divider(height: 30, thickness: 2),
-      //       ListTile(
-      //         leading: Icon(Icons.work),
-      //         title:
-      //             Text(requiredSpecialization, style: TextStyle(fontSize: 18)),
-      //       ),
-      //       ListTile(
-      //         leading: Icon(Icons.monetization_on),
-      //         title: Text(proposedPrice, style: TextStyle(fontSize: 18)),
-      //       ),
-      //       ListTile(
-      //         leading: Icon(Icons.location_on),
-      //         title: Text(nearestLocation, style: TextStyle(fontSize: 18)),
-      //       ),
-      //       ListTile(
-      //         leading: Icon(Icons.people),
-      //         title: Text('$applicantsCount أشخاص قدموا على هذه الخدمة',
-      //             style: TextStyle(fontSize: 18)),
-      //       ),
-      //       SizedBox(height: 20),
-      //       Center(
-      //         child: ElevatedButton(
-      //           onPressed: () {
-      //             // Add your application logic here
-      //             print('تم التقديم على الخدمة');
-      //           },
-      //           child: Text('قدّم الآن', style: TextStyle(fontSize: 18)),
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

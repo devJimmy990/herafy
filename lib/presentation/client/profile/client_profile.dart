@@ -6,7 +6,7 @@ import 'package:herafy/core/widgets/custom_app_bar.dart';
 import 'package:herafy/data/model/client.dart';
 import 'package:herafy/domain/cubit/auth/auth_cubit.dart';
 import 'package:herafy/domain/cubit/user/user_cubit.dart';
-import 'package:herafy/presentation/client/profile/post_card.dart';
+// import 'package:herafy/presentation/client/profile/post_card.dart';
 
 class ClientProfile extends StatelessWidget {
   const ClientProfile({super.key});
