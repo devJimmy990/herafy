@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:herafy/core/widgets/drop_down.dart';
+import 'package:herafy/data/demo_data.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -8,9 +10,9 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
-
+  late String speciality = "سباك";
   @override
   void initState() {
     super.initState();
@@ -36,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Column(
             children: <Widget>[
               AnimatedContainer(
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 width: _isFocused ? double.infinity : 200.0,
                 child: TextFormField(
                   focusNode: _focusNode,
@@ -49,7 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               if (_isFocused) ...[
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -70,23 +72,15 @@ class _SearchScreenState extends State<SearchScreen> {
                         onChanged: (String? newValue) {},
                       ),
                     ),
-                    SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                     Expanded(
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          labelText: 'التخصص',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        items: <String>['سباك', 'نجار', 'كهربائي']
-                            .map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {},
+                      child: CustomDropDownMenu(
+                        isArabic: true,
+                        value: speciality,
+                        label: "إختر التخصص",
+                        list: technicainSpecialties,
+                        onChanged: (newVal) =>
+                            setState(() => speciality = newVal!),
                       ),
                     ),
                   ],
@@ -94,7 +88,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ],
               ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: 3,
                 itemBuilder: (context, index) {
                   return Text('item $index');

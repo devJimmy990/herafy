@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:herafy/presentation/client/post/add_post_bottom_sheet.dart';
 import 'package:herafy/presentation/client/profile/client_profile.dart';
-import 'package:herafy/presentation/client/post/add_post.dart';
+import 'package:herafy/presentation/client/post/post.dart';
 import 'package:herafy/presentation/client/search/search.dart';
 
 class ClientHome extends StatefulWidget {
@@ -11,51 +13,62 @@ class ClientHome extends StatefulWidget {
 }
 
 class _ClientHomeState extends State<ClientHome> {
-  int _currentIndex = 1;
+  int index = 0;
 
   final List<Widget> _screens = [
+    const AddPost(),
     const ClientProfile(),
     const SearchScreen(),
-    const AddPost(),
   ];
-
-  void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _onTabTapped(1);
-        },
-        child: Icon(Icons.home),
-        backgroundColor: Colors.blue,
-        shape: CircleBorder(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 10.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.person),
+      body: _screens[index],
+      floatingActionButton: index == 1
+          ? null
+          : FloatingActionButton(
               onPressed: () {
-                _onTabTapped(0);
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => const AddPostBottomSheet(),
+                );
               },
+              backgroundColor: Colors.blue,
+              child: const Icon(
+                Icons.add,
+                size: 28,
+                color: Colors.white,
+              ),
             ),
-            SizedBox(width: 40), // Space for the floating button
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                _onTabTapped(2);
-              },
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 10),
+          ],
+        ),
+        child: GNav(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          gap: 10,
+          iconSize: 28,
+          color: Colors.white,
+          activeColor: Colors.white,
+          backgroundColor: Colors.black,
+          curve: Curves.easeInOut,
+          onTabChange: (value) => setState(() => index = value),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          tabs: const [
+            GButton(
+              icon: Icons.home,
+              text: 'الرئيسية',
+            ),
+            GButton(
+              icon: Icons.person,
+              text: 'الملف الشخصي',
             ),
           ],
         ),

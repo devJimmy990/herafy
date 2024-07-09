@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 Widget buildSubmitButton({
   Color? bgColor,
   double widthFactor = 1,
+  double hrPadding = 32,
+  double vrPadding = 16,
+  TextStyle style = const TextStyle(color: Colors.white),
   required String label,
   required void Function()? onPressed,
 }) =>
@@ -13,10 +16,14 @@ Widget buildSubmitButton({
           backgroundColor: bgColor,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          padding:
+              EdgeInsets.symmetric(horizontal: hrPadding, vertical: vrPadding),
         ),
         onPressed: onPressed,
-        child: Text(label),
+        child: Text(
+          label,
+          style: style,
+        ),
       ),
     );
 
@@ -51,7 +58,8 @@ Widget buildOptionButton({
           child: CircleAvatar(
             radius: radius,
             backgroundColor: Colors.transparent,
-            backgroundImage: src != null ? AssetImage('assets/images/$src.png') : null,
+            backgroundImage:
+                src != null ? AssetImage('assets/images/$src.png') : null,
             child: Icon(
               icon,
               size: iconSize,

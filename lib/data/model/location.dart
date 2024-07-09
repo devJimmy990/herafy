@@ -30,4 +30,9 @@ class Location {
       "longitude": longitude,
     };
   }
+
+  @override
+  String toString() {
+    return "ش$street - $area - $city";
+  }
 }

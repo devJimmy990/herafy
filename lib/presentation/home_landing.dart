@@ -12,11 +12,9 @@ class HomeLandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<UserCubit>().loadUserData();
     return Scaffold(
-      body: BlocBuilder<UserCubit, UserState>(
-        builder: (context, state) {
-          if (state is UserLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is UserLoaded) {
+      body: BlocListener<UserCubit, UserState>(
+        listener: (context, state) {
+          if (state is UserLoaded) {
             Navigator.pushNamedAndRemoveUntil(
               context,
               context.read<UserCubit>().isClient
@@ -24,12 +22,18 @@ class HomeLandingPage extends StatelessWidget {
                   : Routes.technicianHome,
               (route) => false,
             );
-            // return const Center(child: Text("User Data Loaded"));
           } else if (state is UserError) {
             FailureToast.showToast(msg: state.message);
           }
-          return Container();
         },
+        child: BlocBuilder<UserCubit, UserState>(
+          builder: (context, state) {
+            if (state is UserLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return Container();
+          },
+        ),
       ),
     );
   }

@@ -13,7 +13,7 @@ import 'package:herafy/presentation/auth/signup/register.dart';
 import 'package:herafy/presentation/auth/signup/register_fill.dart';
 import 'package:herafy/presentation/client/client_home.dart';
 import 'package:herafy/presentation/home_landing.dart';
-import 'package:herafy/presentation/technician/home/home.dart';
+import 'package:herafy/presentation/technician/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

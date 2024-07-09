@@ -25,6 +25,8 @@ class UserCubit extends Cubit<UserState> {
   }
 
   dynamic get user => _user;
+  String get id => _user.id;
   String get userType => _user.type;
+  String get speciality => _user.speciality;
   bool get isClient => _user.type == "client";
 }

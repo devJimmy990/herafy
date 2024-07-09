@@ -8,6 +8,7 @@ import 'package:herafy/core/widgets/drop_down.dart';
 import 'package:herafy/core/widgets/icon_picker.dart';
 import 'package:herafy/core/widgets/inputs.dart';
 import 'package:herafy/core/widgets/toast.dart';
+import 'package:herafy/data/demo_data.dart';
 import 'package:herafy/data/model/client.dart';
 import 'package:herafy/data/model/location.dart';
 import 'package:herafy/data/model/technician.dart';
@@ -27,7 +28,7 @@ class RegisterationFillDataPage extends StatefulWidget {
 class _RegisterationFillDataPageState extends State<RegisterationFillDataPage> {
   // File? image;
   String type = "عميل";
-  String speciality = "إختر التخصص";
+  String speciality = "سباك";
   bool isDefault = true;
   String gender = "ذكر";
   late Location location;
@@ -203,16 +204,7 @@ class _RegisterationFillDataPageState extends State<RegisterationFillDataPage> {
                               value: speciality,
                               isArabic: true,
                               label: "إختيار نوع المستخدم",
-                              list: const [
-                                "إختر التخصص",
-                                "سباك",
-                                "نجار",
-                                "كهربائى",
-                                "خياط",
-                                "ميكانيكى",
-                                "بناء",
-                                "دهان"
-                              ],
+                              list: technicainSpecialties,
                               onChanged: (String? newVal) =>
                                   setState(() => speciality = newVal!),
                             ),

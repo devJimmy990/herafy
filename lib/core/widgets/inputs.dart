@@ -103,18 +103,21 @@ Widget buildMultiLineTextField({
   required TextEditingController controller,
   required String? Function(String?) validator,
 }) {
-  return TextFormField(
-    validator: validator,
-    controller: controller,
-    focusNode: focusNode,
-    textAlignVertical: TextAlignVertical.top,
-    keyboardType: TextInputType.text,
-    maxLines: maxLines,
+  return Directionality(
     textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
-    decoration: InputDecoration(
-      labelText: label,
-      hintText: hint,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+    child: TextFormField(
+      minLines: 1,
+      maxLines: maxLines,
+      focusNode: focusNode,
+      validator: validator,
+      controller: controller,
+      textAlignVertical: TextAlignVertical.top,
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+      ),
     ),
   );
 }

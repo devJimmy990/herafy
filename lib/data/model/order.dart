@@ -19,7 +19,7 @@ class Order {
     required this.description,
     this.proposals = const [],
   }) : postedDate = postedDate ??
-            (DateFormat("YYYY-MM-dd").format(DateTime.now())).toString();
+            (DateFormat("yyyy-MM-dd").format(DateTime.now())).toString();
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(

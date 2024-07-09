@@ -6,28 +6,83 @@ import 'package:herafy/domain/cubit/order/order_state.dart';
 
 class OrderCubit extends Cubit<OrderState> {
   OrderCubit() : super(OrderInitial());
-  // getAllOrders()async {
-  //   emit(OrderLoading());
-  //   try {
-  //     List<Order> orders = await OrderRepository(
-  //             remoteDataSource: OrderRemoteDataSource());
-  //         .getAllOrders();
-  //     )
-  //     emit(OrderLoaded(orders: []));
-  //   } catch (e) {
-  //     emit(OrderError(message: e.toString()));
-  //   }
-  // }
+
+  List<Order> orders = [];
+
+  void addProposal(
+      {required String orderID, required String technicianID}) async {
+    try {
+      await OrderRepository(
+        remoteDataSource: OrderRemoteDataSource(),
+      ).addProposal(order: orderID, technician: technicianID);
+      orders
+          .firstWhere((element) => element.id == orderID)
+          .proposals
+          .add(technicianID);
+      emit(OrderLoaded(orders: orders));
+    } catch (e) {
+      emit(OrderError(message: e.toString()));
+    }
+  }
+
+  void addNewOrder({required Order order}) async {
+    emit(OrderLoading());
+    try {
+      order = await OrderRepository(
+        remoteDataSource: OrderRemoteDataSource(),
+      ).addNewOrder(order);
+      emit(OrderLoaded(orders: [...orders, order]));
+    } catch (e) {
+      emit(OrderError(message: e.toString()));
+    }
+  }
+
+  void getAllOrders() async {
+    emit(OrderLoading());
+    try {
+      if (orders.isNotEmpty) {
+        emit(OrderLoaded(orders: orders));
+        return;
+      }
+      orders = await OrderRepository(
+        remoteDataSource: OrderRemoteDataSource(),
+      ).getAllOrders();
+
+      emit(OrderLoaded(orders: orders));
+    } catch (e) {
+      emit(OrderError(message: e.toString()));
+    }
+  }
+
+  void getOrdersByClientID({required String clientId}) async {
+    emit(OrderLoading());
+    try {
+      if (orders.isNotEmpty) {
+        emit(OrderLoaded(orders: orders));
+        return;
+      }
+      orders = await OrderRepository(
+        remoteDataSource: OrderRemoteDataSource(),
+      ).getOrdersByClientID(clientId);
+
+      emit(OrderLoaded(orders: orders));
+    } catch (e) {
+      emit(OrderError(message: e.toString()));
+    }
+  }
 
   void getAllOrdersBySpeciality({required String speciality}) async {
     emit(OrderLoading());
     try {
-      List<Order> orders =
-          await OrderRepository(remoteDataSource: OrderRemoteDataSource())
-              .getAllOrdersBySpeciality(speciality);
+      if (orders.isNotEmpty) {
+        emit(OrderLoaded(orders: orders));
+        return;
+      }
+      orders = await OrderRepository(
+        remoteDataSource: OrderRemoteDataSource(),
+      ).getAllOrdersBySpeciality(speciality);
 
-      orders.sort((a, b) => a.postedDate!.compareTo(b.postedDate!));
-
+      orders.sort((a, b) => b.postedDate!.compareTo(a.postedDate!));
       emit(OrderLoaded(orders: orders.isEmpty ? [] : orders));
     } catch (e) {
       emit(OrderError(message: e.toString()));

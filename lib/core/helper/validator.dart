@@ -9,7 +9,7 @@ class Validator {
   static String? nameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Field is Required';
-    } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+    } else if (!RegExp(r'^[a-zA-Z\u0621-\u064A]+$').hasMatch(value)) {
       return 'Please enter a valid name';
     }
     return null;

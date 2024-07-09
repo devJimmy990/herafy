@@ -1,25 +1,64 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:herafy/data/model/order.dart' as custom_order;
 
 class OrderRemoteDataSource {
   var firestore = FirebaseFirestore.instance;
 
   getAllOrders() async {
     try {
-      firestore.collection("orders").where;
+      QuerySnapshot snapshot = await firestore.collection("orders").get();
+      return snapshot.docs.map((e) => e.data()).toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAllOrdersBySpeciality(
+  Future<List<Object?>> getAllOrdersBySpeciality(
       {required String speciality}) async {
     try {
       QuerySnapshot snapshot = await firestore
           .collection("orders")
           .where("speciality", isEqualTo: speciality)
           .get();
-      return snapshot.docs.map((e) => e.data()).toList()
-          as List<Map<String, dynamic>>;
+      return snapshot.docs.map((e) => e.data()).toList();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<custom_order.Order> addNewOrder(custom_order.Order order) async {
+    try {
+      var docRef = await firestore.collection("orders").add(order.toJson());
+
+      String generatedId = docRef.id;
+
+      order.id = generatedId;
+
+      await docRef.update({'id': generatedId});
+
+      return order;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Object?>> getOrdersByClientID({required String clientId}) async {
+    try {
+      QuerySnapshot snapshot = await firestore
+          .collection("orders")
+          .where("clientID", isEqualTo: clientId)
+          .get();
+      return snapshot.docs.map((e) => e.data()).toList();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  addProposal(String order, String technician) async {
+    try {
+      await firestore.collection("orders").doc(order).update({
+        "proposals": FieldValue.arrayUnion([technician]),
+      });
     } catch (e) {
       throw Exception(e);
     }
