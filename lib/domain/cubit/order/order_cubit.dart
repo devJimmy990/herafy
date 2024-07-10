@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:herafy/data/data%20sources/order_remote_data_source.dart';
 import 'package:herafy/data/model/order.dart';
+import 'package:herafy/data/model/technician.dart';
 import 'package:herafy/data/repositories/order_repository.dart';
 import 'package:herafy/domain/cubit/order/order_state.dart';
 
@@ -10,15 +11,16 @@ class OrderCubit extends Cubit<OrderState> {
   List<Order> orders = [];
 
   void addProposal(
-      {required String orderID, required String technicianID}) async {
+      {required String orderID, required Technician technician}) async {
     try {
+      emit(OrderLoading());
       await OrderRepository(
         remoteDataSource: OrderRemoteDataSource(),
-      ).addProposal(order: orderID, technician: technicianID);
-      orders
-          .firstWhere((element) => element.id == orderID)
-          .proposals
-          .add(technicianID);
+      ).addProposal(order: orderID, technician: technician.id!);
+      orders.firstWhere((element) => element.id == orderID).proposals = [
+        ...orders.firstWhere((element) => element.id == orderID).proposals,
+        technician
+      ];
       emit(OrderLoaded(orders: orders));
     } catch (e) {
       emit(OrderError(message: e.toString()));
@@ -81,6 +83,7 @@ class OrderCubit extends Cubit<OrderState> {
       orders = await OrderRepository(
         remoteDataSource: OrderRemoteDataSource(),
       ).getAllOrdersBySpeciality(speciality);
+      print("Error - Track: Cubit Success $orders");
 
       orders.sort((a, b) => b.postedDate!.compareTo(a.postedDate!));
       emit(OrderLoaded(orders: orders.isEmpty ? [] : orders));

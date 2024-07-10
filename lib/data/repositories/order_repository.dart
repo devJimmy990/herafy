@@ -1,3 +1,4 @@
+import 'package:herafy/core/widgets/toast.dart';
 import 'package:herafy/data/data%20sources/order_remote_data_source.dart';
 import 'package:herafy/data/model/order.dart';
 
@@ -19,7 +20,7 @@ class OrderRepository {
       var orders = await remoteDataSource.getAllOrdersBySpeciality(
           speciality: speciality);
       return orders
-          .map((e) => Order.fromJson(e as Map<String, dynamic>))
+          .map((e) => Order.fromJsonTechnician(e as Map<String, dynamic>))
           .toList();
     } catch (e) {
       throw Exception(e);
@@ -30,7 +31,7 @@ class OrderRepository {
     try {
       var orders = await remoteDataSource.getAllOrders();
       return orders
-          .map((e) => Order.fromJson(e as Map<String, dynamic>))
+          .map((e) => Order.fromJsonClient(e as Map<String, dynamic>))
           .toList();
     } catch (e) {
       throw Exception(e);
@@ -49,18 +50,20 @@ class OrderRepository {
     try {
       var orders =
           await remoteDataSource.getOrdersByClientID(clientId: clientId);
+      print("Error - Track: Repository Success $orders");
       return orders
-          .map((e) => Order.fromJson(e as Map<String, dynamic>))
+          .map((e) => Order.fromJsonClient(e as Map<String, dynamic>))
           .toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  addProposal({required String order,required String technician}) async {
+  addProposal({required String order, required String technician}) async {
     try {
       return await remoteDataSource.addProposal(
-        order, technician,
+        order,
+        technician,
       );
     } catch (e) {
       throw Exception(e);

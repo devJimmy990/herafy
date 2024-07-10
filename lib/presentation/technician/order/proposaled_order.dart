@@ -32,7 +32,7 @@ class BrowseProposaledPage extends StatelessWidget {
                 // SuccessToast.showToast(msg: "state.message.toString()");
                 final List<Order> orders = state.orders
                     .where((order) => order.proposals
-                        .every((proposal) => proposal == technician))
+                        .every((proposal) => proposal.id == technician))
                     .toList();
                 return ListView.builder(
                     itemCount: orders.length,

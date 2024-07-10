@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:herafy/core/widgets/buttons.dart';
 import 'package:herafy/core/widgets/toast.dart';
 import 'package:herafy/data/model/order.dart';
+import 'package:herafy/data/model/technician.dart';
 import 'package:herafy/domain/cubit/order/order_cubit.dart';
 import 'package:herafy/domain/cubit/user/user_cubit.dart';
 
@@ -111,11 +112,12 @@ class _OrderCardState extends State<OrderCard> {
                               fontSize: 18, color: Colors.white),
                           onPressed: () {
                             try {
-                              final String technician =
-                                  context.read<UserCubit>().id;
+                              final Technician technician =
+                                  context.read<UserCubit>().user;
+                              SuccessToast.showToast(msg: "${technician.id}");
                               context.read<OrderCubit>().addProposal(
                                     orderID: widget.order.id,
-                                    technicianID: technician,
+                                    technician: technician,
                                   );
                               SuccessToast.showToast(msg: "تم تقديم عرض بنجاح");
                             } catch (e) {

@@ -44,14 +44,33 @@ class OrderRemoteDataSource {
 
   Future<List<Object?>> getOrdersByClientID({required String clientId}) async {
     try {
-      QuerySnapshot snapshot = await firestore
-          .collection("orders")
-          .where("clientID", isEqualTo: clientId)
+      final snapshot = await firestore
+          .collection('orders')
+          .where('clientID', isEqualTo: clientId)
           .get();
-      return snapshot.docs.map((e) => e.data()).toList();
+
+      final ordersWithProposals =
+          await Future.wait(snapshot.docs.map((orderDoc) async {
+        final orderData = orderDoc.data(); // Assuming data always exists
+        final proposalIds = orderData['proposals'] as List<dynamic>;
+        final proposalsData = await _fetchProposals(proposalIds);
+        return {...orderData, 'proposals': proposalsData};
+      }));
+      return ordersWithProposals.toList();
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  Future<List<dynamic>> _fetchProposals(
+      List<dynamic> proposalIds) async {
+    print("ordersWithProposals: _fetchProposals");
+    final proposals = await Future.wait(proposalIds
+        .map((id) => firestore.collection('technicians').doc(id).get()));
+    return proposals
+        .where((snapshot) => snapshot.exists)
+        .map((snapshot) => snapshot.data()!)
+        .toList();
   }
 
   addProposal(String order, String technician) async {
