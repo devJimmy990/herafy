@@ -65,6 +65,10 @@ class _TechnicianHomePageState extends State<TechnicianHomePage> {
               icon: Icons.construction,
               text: 'العروض',
             ),
+             GButton(
+              icon: Icons.message,
+              text: 'الرسائل',
+            ),
             GButton(
               icon: Icons.person,
               text: 'الملف الشخصي',
