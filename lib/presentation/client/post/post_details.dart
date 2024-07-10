@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:herafy/core/widgets/buttons.dart';
 import 'package:herafy/core/widgets/toast.dart';
 import 'package:herafy/data/model/order.dart';
 import 'package:herafy/data/model/technician.dart';
+import 'package:herafy/domain/cubit/chat/chat_cubit.dart';
+import 'package:herafy/presentation/chat/chat_screen.dart';
 import 'package:herafy/presentation/client/post/post_card.dart';
+
+import '../../../data/model/client.dart';
+import '../../../domain/cubit/user/user_cubit.dart';
 
 class PostDetails extends StatelessWidget {
   final Order order;
@@ -11,6 +17,8 @@ class PostDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Client client = context.read<UserCubit>().user as Client;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -46,6 +54,8 @@ class PostDetails extends StatelessWidget {
               child: ListView.builder(
                 itemCount: order.proposals.length,
                 itemBuilder: (context, index) => proposalCard(
+                  userId: client.id!,
+                  context: context,
                   technician: order.proposals[index],
                 ),
               ),
@@ -57,7 +67,8 @@ class PostDetails extends StatelessWidget {
   }
 }
 
-Widget proposalCard({required Technician technician}) {
+Widget proposalCard(
+    {required Technician technician, required context, required userId}) {
   return Container(
     margin: const EdgeInsets.all(10),
     padding: const EdgeInsets.symmetric(vertical: 20),
@@ -123,7 +134,15 @@ Widget proposalCard({required Technician technician}) {
                 bgColor: Colors.green,
                 style: const TextStyle(fontSize: 16, color: Colors.white),
                 onPressed: () {
-                  FailureToast.showToast(msg: "This Button Not Handled Yet");
+                  // print(technician.fName);
+                  ChatCubit.get(context)
+                      .checkConversation(userId!, technician.id!);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ChatScreen(technician: technician)));
+                  SuccessToast.showToast(msg: "قبول العرض");
                 },
               ),
             ),

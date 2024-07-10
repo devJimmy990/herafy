@@ -6,11 +6,13 @@ class Routes {
 
   /// General
   static const String homeLanding = '/home-landing';
+
   /// Admin
   static const String adminHome = '/admin-home';
 
   /// CLient
   static const String clientHome = '/client-home';
+  static const String chat = '/chatScreen';
 
   /// Technician
   static const String technicianHome = '/technician-home';
