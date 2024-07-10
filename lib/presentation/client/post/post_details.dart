@@ -140,8 +140,12 @@ Widget proposalCard(
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              ChatScreen(technician: technician)));
+                          builder: (context) => ChatScreen(
+                                receiverId: technician.id!,
+                                receiverName:
+                                    "${technician.fName} ${technician.lName}",
+                                technicianSpeciality: technician.speciality,
+                              )));
                   SuccessToast.showToast(msg: "قبول العرض");
                 },
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:herafy/presentation/chat/conversations.dart';
 import 'package:herafy/presentation/client/post/add_post_bottom_sheet.dart';
 import 'package:herafy/presentation/client/profile/client_profile.dart';
 import 'package:herafy/presentation/client/post/post.dart';
@@ -17,8 +18,8 @@ class _ClientHomeState extends State<ClientHome> {
 
   final List<Widget> _screens = [
     const AddPost(),
+    const Conversations(),
     const ClientProfile(),
-    const SearchScreen(),
   ];
 
   @override
@@ -65,6 +66,10 @@ class _ClientHomeState extends State<ClientHome> {
             GButton(
               icon: Icons.home,
               text: 'الرئيسية',
+            ),
+            GButton(
+              icon: Icons.message,
+              text: 'الرسائل',
             ),
             GButton(
               icon: Icons.person,

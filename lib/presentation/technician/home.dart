@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:herafy/presentation/chat/conversations.dart';
 import 'package:herafy/presentation/technician/order/order.dart';
 import 'package:herafy/presentation/technician/profile/profile.dart';
 import 'package:herafy/presentation/technician/order/proposaled_order.dart';
@@ -18,6 +19,8 @@ class _TechnicianHomePageState extends State<TechnicianHomePage> {
     final List<Widget> screens = [
       const AvailableJobsPage(),
       const BrowseProposaledPage(),
+      const Conversations(),
+      const Conversations(),
       const ProfilePage(),
       const Center(
           child: Text(
@@ -65,7 +68,7 @@ class _TechnicianHomePageState extends State<TechnicianHomePage> {
               icon: Icons.construction,
               text: 'العروض',
             ),
-             GButton(
+            GButton(
               icon: Icons.message,
               text: 'الرسائل',
             ),

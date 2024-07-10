@@ -8,9 +8,9 @@ final class ChatInitial extends ChatState {}
 final class ChatsLoading extends ChatState {}
 
 final class ChatsSuccess extends ChatState {
-  final List chats;
+  final List conversations;
 
-  ChatsSuccess({required this.chats});
+  ChatsSuccess({required this.conversations});
 }
 
 final class ChatsFailure extends ChatState {

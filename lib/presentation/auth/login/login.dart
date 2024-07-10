@@ -115,6 +115,11 @@ class _LoginInputsState extends State<LoginInputs> {
             builder: (context, state) {
               return Column(children: [
                 buildSubmitButton(
+                  style: const TextStyle(
+                    color: Colors.blueAccent,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                   label: "تسجيل الدخول",
                   widthFactor: .5,
                   onPressed: () {

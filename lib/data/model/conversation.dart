@@ -1,7 +1,9 @@
 class ConversationModel {
   final String id;
-
+  final String client;
   final String lastUpdatedAt;
+
+  final Map technician;
   final List participantsIds;
   String lastMessages;
 
@@ -10,6 +12,8 @@ class ConversationModel {
     required this.lastUpdatedAt,
     required this.participantsIds,
     required this.lastMessages,
+    required this.client,
+    required this.technician,
   });
 
   factory ConversationModel.fromJson(json) {
@@ -18,6 +22,8 @@ class ConversationModel {
       lastUpdatedAt: json['lastUpdatedAt'],
       participantsIds: json['participantsIds'],
       lastMessages: json['lastMessages'],
+      client: json['client'],
+      technician: json['technician'],
     );
   }
 

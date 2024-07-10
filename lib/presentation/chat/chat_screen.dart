@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:herafy/data/model/technician.dart';
 
+import '../../core/helper/shared_preferences.dart';
 import '../../data/model/client.dart';
 import '../../data/model/conversation.dart';
 import '../../data/model/message.dart';
@@ -13,17 +14,29 @@ import 'chat_bubble.dart';
 class ChatScreen extends StatelessWidget {
   ChatScreen({
     super.key,
-    required this.technician,
+    required this.receiverId,
+    required this.receiverName,
+    required this.technicianSpeciality,
   });
   // final ConversationModel conversation;
-  final Technician technician;
+  final String receiverId;
+  final String receiverName;
+  final String technicianSpeciality;
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    final Client client = context.read<UserCubit>().user as Client;
+    String type = SharedPreference().getString(key: "userType")!;
+    var user = type == "client"
+        ? context.read<UserCubit>().user as Client
+        : context.read<UserCubit>().user as Technician;
 
+    String userId = SharedPreference().getString(key: "userID")!;
+    String clientName =
+        type == "client" ? "${user.fName} ${user.lName}" : receiverName;
+    String technicianName =
+        type == "client" ? receiverName : "${user.fName} ${user.lName}";
     return BlocConsumer<ChatCubit, ChatState>(
       listener: (context, state) {
         if (state is ChatContain) {
@@ -49,7 +62,7 @@ class ChatScreen extends StatelessWidget {
                   color: Colors.black,
                 )),
             title: Text(
-              "${technician.fName} ${technician.lName}",
+              receiverName,
               style: const TextStyle(color: Colors.black, fontSize: 20),
             ),
             centerTitle: true,
@@ -62,7 +75,7 @@ class ChatScreen extends StatelessWidget {
                       reverse: true,
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
-                        if (client.id == messages[index].senderId) {
+                        if (userId == messages[index].senderId) {
                           return ChatBubble(
                             message: messages[index],
                           );
@@ -80,11 +93,16 @@ class ChatScreen extends StatelessWidget {
                   onSubmitted: (data) {
                     //send msg
                     if (ChatCubit.get(context).conversationId == null) {
-                      ChatCubit.get(context)
-                          .startConversation(technician.id!, client.id!, data);
+                      ChatCubit.get(context).startConversation(
+                          receiverId,
+                          userId,
+                          data,
+                          clientName,
+                          technicianName,
+                          technicianSpeciality);
                     } else {
                       ChatCubit.get(context)
-                          .sendMessage(data, client.id!, technician.id!);
+                          .sendMessage(data, userId, receiverId);
                     }
 
                     messageController.clear();

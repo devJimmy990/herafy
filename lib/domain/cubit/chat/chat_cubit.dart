@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../../data/model/conversation.dart';
 import '../../../data/model/message.dart';
 
 part 'chat_state.dart';
@@ -13,7 +14,33 @@ class ChatCubit extends Cubit<ChatState> {
 
   static ChatCubit get(context) => BlocProvider.of(context);
   List<MessageModel> chatMessages = [];
+  List<ConversationModel> conversations = [];
+
   String? conversationId;
+
+  void getUserConversations(String userId) {
+    emit(ChatsLoading());
+    try {
+      FirebaseFirestore.instance
+          .collection('conversations')
+          .where(
+            'participantsIds',
+            arrayContains: userId,
+          )
+          .orderBy('lastUpdatedAt', descending: true)
+          .snapshots()
+          .listen((event) {
+        conversations.clear();
+        for (var element in event.docs) {
+          conversations.add(ConversationModel.fromJson(element.data()));
+        }
+        emit(ChatsSuccess(conversations: conversations));
+      });
+    } on Exception catch (e) {
+      emit(ChatsFailure(error: e.toString()));
+    }
+  }
+
   void getChatMessages(String conversationId) {
     emit(GetMessagesLoading());
     try {
@@ -36,11 +63,14 @@ class ChatCubit extends Cubit<ChatState> {
     }
   }
 
-  void startConversation(String receiverId, String userId, String message) {
+  void startConversation(String receiverId, String userId, String message,
+      String clientName, String technicianName, String technicianSpecialty) {
     FirebaseFirestore.instance.collection('conversations').add({
       'participantsIds': [userId, receiverId],
       'lastUpdatedAt': DateTime.now().toString(),
       'lastMessages': message,
+      'client': clientName,
+      'technician': {'name': technicianName, 'specialty': technicianSpecialty},
     }).then((value) {
       FirebaseFirestore.instance
           .collection("conversations")
