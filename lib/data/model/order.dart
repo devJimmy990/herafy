@@ -21,10 +21,7 @@ class Order {
     this.proposals = const [],
   }) : postedDate = postedDate ??
             (DateFormat("yyyy-MM-dd").format(DateTime.now())).toString();
-<<<<<<< HEAD
 
-=======
->>>>>>> 0c593a13886be73899ee3ed7c20f7dfb4a1ee3c6
   factory Order.fromJsonClient(Map<String, dynamic> json) {
     return Order(
       id: json['id'],
