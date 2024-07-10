@@ -15,10 +15,10 @@ class OrderCubit extends Cubit<OrderState> {
       await OrderRepository(
         remoteDataSource: OrderRemoteDataSource(),
       ).addProposal(order: orderID, technician: technicianID);
-      orders
-          .firstWhere((element) => element.id == orderID)
-          .proposals
-          .add(technicianID);
+      // orders
+      //     .firstWhere((element) => element.id == orderID)
+      //     .proposals
+      //     .add(technicianID);
       emit(OrderLoaded(orders: orders));
     } catch (e) {
       emit(OrderError(message: e.toString()));
@@ -81,6 +81,7 @@ class OrderCubit extends Cubit<OrderState> {
       orders = await OrderRepository(
         remoteDataSource: OrderRemoteDataSource(),
       ).getAllOrdersBySpeciality(speciality);
+      print("Error - Track: Cubit Success $orders");
 
       orders.sort((a, b) => b.postedDate!.compareTo(a.postedDate!));
       emit(OrderLoaded(orders: orders.isEmpty ? [] : orders));
